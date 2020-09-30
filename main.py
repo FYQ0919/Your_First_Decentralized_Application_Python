@@ -3,7 +3,7 @@
 # this tutorial so the flask code won't be commented. that way we can focus on
 # how we're working with our smart contract
 from flask import Flask, request, render_template
-
+import os
 # solc is needed to compile our Solidity code
 from solc import compile_source
 
@@ -19,7 +19,7 @@ app = Flask(__name__)
 # declare the candidates we're allowing people to vote for.
 # note that each name is in bytes because our contract variable
 # candidateList is type bytes32[]
-VOTING_CANDIDATES = [b'Rama', b'Nick', b'Jose']
+VOTING_CANDIDATES = [b'CPU', b'GPU', b'mainboard',b'memory',b'Hard Disk']
 
 # open a connection to the local ethereum node
 http_provider = HTTPProvider('http://localhost:8545')
@@ -125,7 +125,8 @@ def index():
         candidates[candidate_name_string] = votes_for_candidate
 
     return render_template('index.html', candidates=candidates, alert=alert)
-
+def inspect():
+    os.system("python yangqing/Inspection_Contract")
 
 if __name__ == '__main__':
     # set debug=True for easy development and experimentation
@@ -133,3 +134,4 @@ if __name__ == '__main__':
     # this isn't a problem, but since we deploy our contract during initialization it ends up getting
     # deployed twice. when use_reloader is set to False it deploys only once but reloading is disabled
     app.run(debug=True, use_reloader=False)
+    inspect()
